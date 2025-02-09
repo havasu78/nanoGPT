@@ -1,3 +1,7 @@
+
+
+
+
 """
 This training script can be run both on a single gpu in debug mode,
 and also in a larger training run with distributed data parallel (ddp).
@@ -28,6 +32,10 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.distributed import init_process_group, destroy_process_group
 
 from model import GPTConfig, GPT
+
+# Record the start time at the beginning of the script
+start_time = time.time()
+
 
 # -----------------------------------------------------------------------------
 # default config values designed to train a gpt2 (124M) on OpenWebText
@@ -334,3 +342,10 @@ while True:
 
 if ddp:
     destroy_process_group()
+
+
+
+# After training is complete, print the total elapsed time
+end_time = time.time()
+total_time = end_time - start_time
+print(f"Total elapsed time: {total_time:.2f} seconds")
